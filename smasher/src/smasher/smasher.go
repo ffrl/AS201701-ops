@@ -38,12 +38,23 @@ func check_ip_forwarding(interface_name string) {
 	}
 }
 
+func check_rp_filter(interface_name string) {
+	rp_filter, err := ioutil.ReadFile(PROC_SYS_NET_IPV4 + "/conf/" +
+	  interface_name + "/rp_filter")
+	check(err)
+
+	if string(rp_filter) != "0\n" {
+		fmt.Printf("rp_filter on %s: enabled\n", interface_name)
+	}
+}
+
 func check_interfaces() {
 	interfaces, err := ioutil.ReadDir(PROC_SYS_NET_IPV4 + "/conf")
 	check(err)
 
 	for _, interface_ := range interfaces {
 		check_ip_forwarding(interface_.Name())
+		check_rp_filter(interface_.Name())
 	}
 }
 
