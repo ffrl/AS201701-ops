@@ -1,3 +1,11 @@
+/*
+ * smasher.go is a tool that audits the running configuration of
+ * routers within AS-FFRL / AS201701
+ *
+ * (c) 2015 by:
+ *  takt
+ */
+
 package main
 
 import "fmt"
@@ -55,6 +63,9 @@ func check_interfaces() {
 	for _, interface_ := range interfaces {
 		check_ip_forwarding(interface_.Name())
 		check_rp_filter(interface_.Name())
+		/*
+		 * TODO: Check IP addresses on interfaces against IPDB.
+		 */
 	}
 }
 
